@@ -15,7 +15,7 @@ public class App {
     public static void main(String[] args) throws InterruptedException {
         ExecutorService threadPool = Executors.newCachedThreadPool();
         threads = List.of(
-                new CustomThread("Thirst"),
+                new CustomThread("First"),
                 new CustomThread("Second"),
                 new CustomThread("Third"),
                 new CustomThread("Forth"));
@@ -38,7 +38,6 @@ public class App {
             while (true) {
                 try {
                     queue.take();
-                    sleep(50);
                     System.out.println(name);
                     next();
                 } catch (InterruptedException e) {

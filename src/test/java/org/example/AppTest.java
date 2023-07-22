@@ -1,38 +1,27 @@
 package org.example;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.Test;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.List;
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
+import static org.junit.Assert.assertEquals;
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+public class AppTest {
+    @Test
+    public void testApp() throws InterruptedException {
+        PrintStream out = System.out;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(baos));
+        App.main(new String[]{""});
+        System.setOut(out);
+        String[] lines = baos.toString().split("\\r?\\n");
+
+        List<String> pattern = List.of("First", "Second", "Third", "Forth");
+        for (int i = 0, m = 0; i < lines.length; i++, m = i % pattern.size()) {
+            assertEquals(lines[i], pattern.get(m));
+        }
+        System.out.println("size = " + lines.length);
     }
 }
